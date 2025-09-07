@@ -1,0 +1,218 @@
+[
+  {
+    "id": 1,
+    "name": "The Playground PH",
+    "location": "Lipa City",
+    "price": 300,
+    "main_image": "/assets/images/space-1.png",
+    "images": ["/assets/images/space1_a.png", "/assets/images/space1_b.png"],
+    "description": "A quiet and cozy space perfect for deep focus sessions. Equipped with soundproof pods and an extensive library for a productive day.",
+    "amenities": [
+      "High-speed Wi-Fi",
+      "Free Coffee & Tea",
+      "Power Outlets at every seat",
+      "Air-conditioned",
+      "Printing Services"
+    ],
+    "hours": "9:00 AM - 9:00 PM",
+    "time_slots": ["9am - 1pm", "1pm - 5pm", "5pm - 9pm"]
+  },
+  {
+    "id": 2,
+    "name": "WorkHaven Makati",
+    "location": "Makati City",
+    "price": 500,
+    "main_image": "/assets/images/space-2.jpg",
+    "images": ["/assets/images/space2_a.png", "/assets/images/space2_b.png"],
+    "description": "A professional co-working environment in the heart of the business district. Ideal for meetings, collaborations, and networking.",
+    "amenities": [
+      "Fiber Internet",
+      "Meeting Rooms",
+      "Gourmet Pantry",
+      "24/7 Access",
+      "Ergonomic Chairs"
+    ],
+    "hours": "Open 24/7",
+    "time_slots": ["Full Day Pass", "Night Owl Pass (9pm-6am)"]
+  },
+  {
+    "id": 3,
+    "name": "Cebu Creative Hub",
+    "location": "Cebu City",
+    "price": 250,
+    "main_image": "/assets/images/space-3.png",
+    "images": ["/assets/images/space3_a.png", "/assets/images/space3_b.png"],
+    "description": "A vibrant and artistic space designed to foster creativity and collaboration among Cebu's digital nomads and artists.",
+    "amenities": [
+      "Community Events",
+      "Art Supplies",
+      "Fast Wi-Fi",
+      "Pet-friendly",
+      "Outdoor Garden"
+    ],
+    "hours": "10:00 AM - 7:00 PM",
+    "time_slots": ["Morning Session (10am-2pm)", "Afternoon Session (2pm-6pm)"]
+  },
+  {
+    "id": 4,
+    "name": "Loft BGC",
+    "location": "Taguig City",
+    "price": 550,
+    "main_image": "/assets/images/space-4.png",
+    "images": ["/assets/images/space4_a.png", "/assets/images/space4_b.png"],
+    "description": "Modern study lounge in the heart of BGC with panoramic city views. Perfect for professionals and students alike.",
+    "amenities": [
+      "Floor-to-ceiling windows",
+      "Premium Coffee",
+      "Silent Zones",
+      "Phone Booths",
+      "Fast Charging Stations"
+    ],
+    "hours": "8:00 AM - 10:00 PM",
+    "time_slots": ["8am - 12pm", "12pm - 4pm", "4pm - 8pm", "8pm - 10pm"]
+  },
+  {
+    "id": 5,
+    "name": "Hi Five Coworking Space",
+    "location": "Iloilo City",
+    "price": 200,
+    "main_image": "/assets/images/space-5.jpg",
+    "images": ["/assets/images/space5_a.png", "/assets/images/space5_b.jpg"],
+    "description": "Affordable co-working space with a laid-back atmosphere. Great for remote workers and freelancers on a budget.",
+    "amenities": [
+      "Unlimited Coffee",
+      "Reliable Internet",
+      "Rooftop Terrace",
+      "Community Kitchen",
+      "Bike Parking"
+    ],
+    "hours": "7:00 AM - 11:00 PM",
+    "time_slots": ["Early Bird (7am-11am)", "Day Pass (11am-7pm)", "Night Shift (7pm-11pm)"]
+  },
+  {
+    "id": 6,
+    "name": "EPro Coworking Space and Study Hub",
+    "location": "Baguio City",
+    "price": 180, 
+    "main_image": "/assets/images/space-6.png",
+    "images": ["/assets/images/space6_a.png", "/assets/images/space6_b.png"],
+    "description": "Cozy mountain retreat perfect for focused study sessions. Enjoy the cool weather and peaceful environment.",
+    "amenities": [
+      "Mountain View",
+      "Fireplace Lounge",
+      "Hot Chocolate Bar",
+      "Library Corner",
+      "Blanket Service"
+    ],
+    "hours": "6:00 AM - 8:00 PM",
+    "time_slots": ["Dawn Session (6am-10am)", "Morning Focus (10am-2pm)", "Afternoon Study (2pm-6pm)"]
+  },
+  {
+    "id": 7,
+    "name": "All-Nighter Coworking and Study Hub",
+    "location": "Davao City",
+    "price": 350,
+    "main_image": "/assets/images/space-7.jpg",
+    "images": ["/assets/images/space7_a.jpg", "/assets/images/space7_b.jpg"],
+    "description": "State-of-the-art technology hub equipped with the latest gadgets and high-speed internet for tech professionals.",
+    "amenities": [
+      "Gigabit Internet",
+      "Mac & PC Stations",
+      "3D Printers",
+      "VR Room",
+      "Tech Workshops"
+    ],
+    "hours": "24 Hours",
+    "time_slots": ["Morning Coding (10am-2pm)", "Afternoon Dev (2pm-6pm)", "Evening Hack (6pm-10pm)", "All-nighter (10pm-6am)"]
+  },
+  {
+    "id": 8,
+    "name": "HomeRoom Co-Working and Study Lounge",
+    "location": "Manila Bay",
+    "price": 400,
+    "main_image": "/assets/images/space-8.jpg",
+    "images": ["/assets/images/space8_a.jpg", "/assets/images/space8_b.jpg"],
+    "description": "Waterfront study space with stunning bay views. Watch the sunset while you work on your projects.",
+    "amenities": [
+      "Bay View",
+      "Sunset Deck",
+      "Cafe Menu",
+      "Meditation Corner",
+      "Instagram-worthy Spots"
+    ],
+    "hours": "10:00 AM - 12:00 AM",
+    "time_slots": ["Brunch Study (10am-2pm)", "Afternoon Grind (2pm-6pm)", "Sunset Session (6pm-10pm)", "Night Owl (10pm-12am)"]
+  },
+  {
+    "id": 9,
+    "name": "Super Metro Antipolo",
+    "location": "Antipolo",
+    "price": 220,
+    "main_image": "/assets/images/space-9.jpg",
+    "images": ["/assets/images/space9_a.jpg", "/assets/images/space9_b.jpg"],
+    "description": "Escape the city hustle in this serene hillside workspace. Fresh air and nature views to boost your productivity.",
+    "amenities": [
+      "Nature Views",
+      "Fresh Air",
+      "Garden Tables",
+      "Organic Snacks",
+      "Yoga Corner"
+    ],
+    "hours": "6:00 AM - 10:00 PM",
+    "time_slots": ["Sunrise Session (6am-10am)", "Mid-day Focus (10am-3pm)", "Golden Hour (3pm-7pm)", "Evening Wind Down (7pm-10pm)"]
+  },
+  {
+    "id": 10,
+    "name": "Comfort Zone Lipa",
+    "location": "Lipa City",
+    "price": 480,
+    "main_image": "/assets/images/space-10.png",
+    "images": ["/assets/images/space10_a.png", "/assets/images/space10_b.png"],
+    "description": "Premium business center in Ortigas with executive amenities. Perfect for important meetings and professional work.",
+    "amenities": [
+      "Executive Lounges",
+      "Conference Rooms",
+      "Secretary Services",
+      "Premium Dining",
+      "Valet Parking"
+    ],
+    "hours": "9:00 AM - 9:00 PM",
+    "time_slots": ["Early Executive (9am-12pm)", "Business Hours (12pm-4pm)", "After Hours (4pm-9pm)"]
+  },
+  {
+    "id": 11,
+    "name": "Think Space Co-working And Study Lounge",
+    "location": "Puerto Princesa, Palawan",
+    "price": 280,
+    "main_image": "/assets/images/space-11.jpg",
+    "images": ["/assets/images/space11_a.jpg", "/assets/images/space11_b.jpg"],
+    "description": "Tropical paradise workspace where you can work with your toes in the sand. Perfect for digital nomads seeking a unique remote work experience.",
+    "amenities": [
+      "Beachfront Location",
+      "Hammock Workstations",
+      "Fresh Coconut Bar",
+      "Underwater Wi-Fi",
+      "Island Hopping Breaks"
+    ],
+    "hours": "7:00 AM - 9:00 PM",
+    "time_slots": ["Sunrise Beach (7am-11am)", "Midday Shade (11am-3pm)", "Sunset Productivity (3pm-7pm)", "Moonlight Session (7pm-9pm)"]
+  },
+  {
+    "id": 12,
+    "name": "TU-ON Co Working Space",
+    "location": "Surigao City",
+    "price": 190,
+    "main_image": "/assets/images/space-12.jpg",
+    "images": ["/assets/images/space12_a.jpg", "/assets/images/space12_b.jpg"],
+    "description": "TU-ON Co Working Space is a productive, collaborative, and inspiring environment to work and study.",
+    "amenities": [
+      "Historic Architecture",
+      "Heritage Tours",
+      "Traditional Longganisa Breakfast",
+      "Cobblestone Courtyard",
+      "Cultural Library"
+    ],
+    "hours": "8:00 AM - 8:00 PM",
+    "time_slots": ["Heritage Morning (8am-12pm)", "Siesta Study (12pm-4pm)", "Colonial Evening (4pm-8pm)"]
+  }
+]

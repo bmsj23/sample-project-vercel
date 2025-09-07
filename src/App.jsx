@@ -1,34 +1,41 @@
-export default function App() {
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AuthProvider from './contexts/AuthContext';
+import BookingProvider from './contexts/BookingContext';
+import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import SpaceDetailPage from './pages/SpaceDetailPage';
+import DashboardPage from './pages/DashboardPage';
+import LoginPage from './pages/LoginPage';
+import ProtectedRoute from './components/ProtectedRoute';
+
+function App() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-        fontFamily: "sans-serif",
-        background: "#f9fafb",
-        color: "#111",
-        textAlign: "center",
-        padding: "2rem",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "2.5rem",
-          marginBottom: "0.5rem",
-          fontWeight: 600,
-        }}
-      >
-        Welcome to{" "}
-        <span style={{ color: "#2563eb" }}>midterm-project</span> 🚀
-      </h1>
-      <p style={{ fontSize: "1.1rem", color: "#555", marginBottom: "2rem" }}>
-        Your project is ready. Start building amazing things!
-      </p>
-      
-      
-    </div>
+    <AuthProvider>
+      <BookingProvider>
+        <Router>
+          <div className="min-h-screen bg-gray-50">
+            <Header />
+            <main>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/space/:spaceId" element={<SpaceDetailPage />} />
+                <Route 
+                  path="/dashboard/my-bookings" 
+                  element={
+                    <ProtectedRoute>
+                      <DashboardPage />
+                    </ProtectedRoute>
+                  } 
+                />
+              </Routes>
+            </main>
+          </div>
+        </Router>
+      </BookingProvider>
+    </AuthProvider>
   );
 }
+
+export default App;
