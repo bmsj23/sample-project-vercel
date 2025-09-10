@@ -1,6 +1,6 @@
 # StudySpot PH - Study Space Booking Platform
 
-A comprehensive React single-page application for booking co-working spaces and study hubs across the Philippines.
+A comprehensive React single-page application (SPA) for booking co-working spaces and study hubs across the Philippines.
 
 ## 🚀 Teknolojia
 
