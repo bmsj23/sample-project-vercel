@@ -4,7 +4,7 @@ A comprehensive React single-page application for booking co-working spaces and 
 
 ## 🚀 Teknolojia
 
-### ✅ Core Requirements Completed
+### ✅ Kor Requirements Completed
 
 - **Homepage with Search**: Browse all study spaces with functional search by name or location
 - **12 Study Spaces**: Complete dataset with 12 diverse study spaces across different cities
