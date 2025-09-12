@@ -26,7 +26,7 @@ A comprehensive React single-page application (SPA) for booking co-working space
 - **Loading States**: Smooth loading animations and states
 - **Error Handling**: Comprehensive error handling and user feedback
 
-## 🏗️ Architecture
+## 🏗️ Ark
 
 ### Component Structure
 ```
