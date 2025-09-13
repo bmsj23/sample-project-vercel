@@ -26,7 +26,7 @@ A comprehensive React single-page application (SPA) for booking co-working space
 - **Loading States**: Smooth loading animations and states
 - **Error Handling**: Comprehensive error handling and user feedback
 
-## 🏗️ Architecture
+## 🏗️ Ark
 
 ### Component Structure
 ```
@@ -117,6 +117,6 @@ Any other credentials will result in authentication failure.
 
 ---
 
-## 📝 Development Notes
+## 📝 Dev Notes
 
 This project demonstrates comprehensive React development skills including component architecture, state management, routing, form handling, and modern development practices. All core requirements have been successfully implemented with additional enhancements for better user experience.
