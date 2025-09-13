@@ -43,61 +43,66 @@ function HomePage() {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       </div>
-    );
+    ); 
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="">
       {/* hero section */}
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Find Your Perfect Study Space
-        </h1>
-        <p className="text-xl text-gray-600 mb-8">
-          Discover co-working spaces and study hubs across the Philippines
-        </p>
-        
-        {/* search bar */}
-        <div className="max-w-2xl mx-auto">
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <div className="bg-[url('/assets/images/herosection.jpg')] max-w-full py-50">
+        <div className="text-center mb-12 flex-col justify-between">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Find Your Perfect Study Space
+          </h1>
+          <p className="text-xl text-gray-600 mb-8">
+            Discover co-working spaces and study hubs across the Philippines
+          </p>
+          
+          {/* search bar */}
+          <div className="max-w-2xl mx-auto">
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              </div>
+              <input
+                type="text"
+                placeholder="Search by name or location..."
+                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:border-blue-500 text-lg"
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
             </div>
-            <input
-              type="text"
-              placeholder="Search by name or location..."
-              className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:border-blue-500 text-lg"
-              value={searchTerm}
-              onChange={handleSearchChange}
-            />
           </div>
         </div>
       </div>
 
-      {/* results summary */}
-      <div className="mb-8">
-        <p className="text-gray-600">
-          {filteredSpaces.length === spaces.length ? (
-            `Showing all ${spaces.length} spaces`
-          ) : (
-            `Found ${filteredSpaces.length} spaces matching "${searchTerm}"`
-          )}
-        </p>
-      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-      {/* spaces grid */}
-      {filteredSpaces.length === 0 ? (
-        <div className="text-center py-12">
-          <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No spaces found</h3>
-          <p className="mt-1 text-sm text-gray-500">Try searching with different keywords.</p>
+        {/* results summary */}
+        <div className="mb-8">
+          <p className="text-gray-600">
+            {filteredSpaces.length === spaces.length ? (
+              `Showing all ${spaces.length} spaces`
+            ) : (
+              `Found ${filteredSpaces.length} spaces matching "${searchTerm}"`
+            )}
+          </p>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredSpaces.map((space) => (
-            <SpaceCard key={space.id} space={space} />
-          ))}
-        </div>
-      )}
+
+        {/* spaces grid */}
+        {filteredSpaces.length === 0 ? (
+          <div className="text-center py-12">
+            <FileText className="mx-auto h-12 w-12 text-gray-400 mb-4" />
+            <h3 className="mt-2 text-sm font-medium text-gray-900">No spaces found</h3>
+            <p className="mt-1 text-sm text-gray-500">Try searching with different keywords.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredSpaces.map((space) => (
+              <SpaceCard key={space.id} space={space} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
