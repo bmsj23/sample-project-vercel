@@ -49,11 +49,11 @@ function BookingForm({ space, user }) {
   // generate available dates (next 30 days)
   const generateAvailableDates = () => {
     const dates = [];
-    const today = new Date();
+    //const today = new Date();
     
     for (let i = 0; i < 30; i++) {
       const date = new Date();
-      date.setDate(today.getDate() + i);
+      date.setDate(i + 1);
       dates.push({
         value: date.toISOString().split('T')[0], // YYYY-MM-DD format
         date: date,
@@ -220,12 +220,9 @@ function BookingForm({ space, user }) {
                       disabled={isSubmitting}
                       className={`
                         h-10 text-sm font-medium rounded-md transition-colors duration-200 relative
-                        ${isSelected
-                          ? 'bg-blue-600 text-white hover:bg-blue-700'
-                          : hasBooking
-                          ? 'bg-green-100 text-green-800 hover:bg-green-200 ring-2 ring-green-400'
-                          : isToday
-                          ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
+                        ${isSelected ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                          : hasBooking ? 'bg-green-100 text-green-800 hover:bg-green-200 ring-2 ring-green-400'
+                          : isToday ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
                           : 'text-gray-900 hover:bg-gray-100'
                         }
                         ${isSubmitting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}

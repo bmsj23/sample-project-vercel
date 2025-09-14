@@ -9,14 +9,15 @@ function Header() {
   const isUserAuthenticated = isAuthenticated();
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm fixed w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* logo */}
-          <div className="flex items-center">
+          <div className="flex flex-row items-center justify-center">
+            <img src="/assets/images/faviconheader.ico" className="w-10 h-10"></img>
             <Link
               to="/"
-               className="text-2xl font-bold text-blue-600 hover:text-blue-700">
+               className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-1">
               StudySpot PH
             </Link>
           </div>
