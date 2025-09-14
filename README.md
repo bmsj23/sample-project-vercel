@@ -4,7 +4,7 @@ A comprehensive React single-page application (SPA) for booking co-working space
 
 ## 🚀 Teknolojia
 
-### ✅ Kor Requirements Completed
+### ✅ Core Requirements Completed
 
 - **Homepage with Search**: Browse all study spaces with functional search by name or location
 - **12 Study Spaces**: Complete dataset with 12 diverse study spaces across different cities
@@ -17,7 +17,7 @@ A comprehensive React single-page application (SPA) for booking co-working space
 - **Data Persistence**: localStorage integration for user sessions and bookings
 - **Responsive Design**: Mobile-friendly interface with Tailwind CSS
 
-### 🔧 Additional Fichurs
+### 🔧 Additional Features
 
 - **Back Navigation**: "Back" button on space detail pages
 - **Fixed Card Layout**: Consistent card heights with fixed button positions
