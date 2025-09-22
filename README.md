@@ -6,7 +6,7 @@ A comprehensive React single-page application (SPA) for booking co-working space
 
 ### ✅ Core Requirements
 
-- **Homepage with Search**: Browse all study spaces with functional search by name or location
+- **Homepage w/ Search**: Browse all study spaces with functional search by name or location
 - **12 Study Spaces**: Complete dataset with 12 diverse study spaces across different cities
 - **Space Detail Pages**: Dynamic routing (`/space/:spaceId`) with detailed space information
 - **Date & Time Booking System**: Users can select future dates and available time slots
