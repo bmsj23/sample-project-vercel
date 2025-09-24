@@ -92,11 +92,11 @@ function SpaceDetailPage() {
               <div className="text-sm text-green-700">
                 {spaceBookings.map((booking, index) => (
                   <div key={booking.id || index} className="mb-1">
-                    {new Date(booking.bookingDate).toLocaleDateString('en-US', { 
-                      weekday: 'long', 
-                      year: 'numeric', 
-                      month: 'long', 
-                      day: 'numeric' 
+                    {new Date(booking.bookingDate).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
                     })} at {booking.timeSlot}
                   </div>
                 ))}
@@ -112,21 +112,22 @@ function SpaceDetailPage() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* left column (images and details) */}
         <div>
+          <div className="bg-gradient-to-br from-blue-50 via-white to-white-50 border border-blue-100 rounded-2xl p-8 shadow-xl">
           {/* image gallery */}
           <div className="mb-6">
-            <div className="aspect-w-4 aspect-h-3 mb-4">
+            <div className="aspect-w-4 aspect-h-3 mb-4 rounded-xl overflow-hidden border border-gray-200 shadow">
               <img
                 src={allImages[activeImageIndex]}
                 alt={`${space.name} - Image ${activeImageIndex + 1}`}
-                className="w-full h-64 object-cover rounded-lg shadow-md"
+                className="w-full h-64 object-cover"
                 onError={(e) => {
                   e.target.src = 'https://via.placeholder.com/600x400?text=Study+Space';
                 }} />
             </div>
-            
+
             {/* thumbnail gallery */}
             {allImages.length > 1 && (
               <div className="flex space-x-2 overflow-x-auto">
