@@ -198,7 +198,7 @@ function BookingForm({ space, user }) {
           <div className="text-center mb-4">
             <h3 className="text-lg font-semibold text-gray-900">{currentMonth}</h3>
           </div>
-          
+
           {/* days of week header */}
           <div className="grid grid-cols-7 gap-1 mb-2">
             {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
@@ -207,7 +207,7 @@ function BookingForm({ space, user }) {
               </div>
             ))}
           </div>
-          
+
           {/* calendar grid */}
           <div className="space-y-1">
             {calendarWeeks.map((week, weekIndex) => (
@@ -216,20 +216,22 @@ function BookingForm({ space, user }) {
                   if (!date) {
                     return <div key={dayIndex} className="h-10"></div>;
                   }
-                  
+
                   const isSelected = selectedDate === date.value;
                   const isToday = date.isToday;
                   const hasBooking = hasBookingOnDate(date.value);
-                  
+                  const isPast = date.isPast;
+
                   return (
                     <button
                       key={date.value}
                       type="button"
-                      onClick={() => setSelectedDate(date.value)}
-                      disabled={isSubmitting}
+                        onClick={() => { if (!isPast && !isSubmitting) setSelectedDate(date.value); }}
+                        disabled={isSubmitting || isPast}
                       className={`
                         h-10 text-sm font-medium rounded-md transition-colors duration-200 relative
-                        ${isSelected ? 'bg-blue-600 text-white hover:bg-blue-700' 
+                        ${isSelected ? 'bg-blue-600 text-white hover:bg-blue-700'
+                          : isPast ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : hasBooking ? 'bg-green-100 text-green-800 hover:bg-green-200 ring-2 ring-green-400'
                           : isToday ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
                           : 'text-gray-900 hover:bg-gray-100'
@@ -246,7 +248,7 @@ function BookingForm({ space, user }) {
               </div>
             ))}
           </div>
-          
+
           {/* selected date display */}
           {selectedDate && (
             <div className="mt-4 p-3 bg-blue-50 rounded-md text-center">
@@ -255,7 +257,7 @@ function BookingForm({ space, user }) {
               </p>
             </div>
           )}
-          
+
           {/* calendar legend */}
           <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-600 justify-center">
             <div className="flex items-center">
@@ -284,7 +286,8 @@ function BookingForm({ space, user }) {
         <div className="space-y-2">
           {space.time_slots.map((slot, index) => {
             const isSlotAlreadyBooked = selectedDate && isSlotBooked(selectedDate, slot);
-            
+
+
             return (
               <label
                 key={index}
@@ -351,7 +354,7 @@ function BookingForm({ space, user }) {
         type="submit"
         disabled={!selectedSlot || !selectedDate || isSubmitting}
         className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200 font-medium cursor-pointer">
-        {isSubmitting ? ( 
+        {isSubmitting ? (
           <div className="flex items-center justify-center">
             <Loader className="animate-spin mr-3 h-5 w-5" />
             Processing Booking...
@@ -361,7 +364,7 @@ function BookingForm({ space, user }) {
 
       {/* terms and conditions */}
       <p className="text-xs text-gray-500 text-center">
-        By booking, you agree to our terms and conditions. 
+        By booking, you agree to our terms and conditions.
         Cancellation is available up to 24 hours before your session.
       </p>
     </form>
