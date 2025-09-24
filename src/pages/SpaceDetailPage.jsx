@@ -13,7 +13,7 @@ function SpaceDetailPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { user, isAuthenticated } = useAuth();
   const { getUserBookings } = useBooking();
-  
+
   // get user's bookings for this space
   const userBookings = getUserBookings();
   const spaceBookings = userBookings.filter(booking => booking.spaceId === parseInt(spaceId));
@@ -22,7 +22,7 @@ function SpaceDetailPage() {
   useEffect(() => {
     // find the space by ID
     const foundSpace = spacesData.find(s => s.id === parseInt(spaceId));
-    
+
     setTimeout(() => {
       setSpace(foundSpace);
       setLoading(false);
