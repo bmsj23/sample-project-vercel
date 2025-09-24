@@ -206,13 +206,13 @@ function SpaceDetailPage() {
                       You need to be logged in to make a booking.
                     </p>
                   </div>
-                  
+
                   <Link
                     to="/login"
                     className="block w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 font-medium text-center">
                     Sign In to Book
                   </Link>
-                  
+
                   <p className="text-sm text-gray-500 mt-4">
                     Don't have an account? Use demo credentials: user / 123
                   </p>
