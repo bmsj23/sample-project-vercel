@@ -151,7 +151,7 @@ function SpaceCard({ space }) {
           ₱{space.price}/day
         </div>
       </div>
-      
+
       {/* space deets */}
       <div className="p-6 flex flex-col flex-grow">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">{space.name}</h3>
@@ -159,12 +159,12 @@ function SpaceCard({ space }) {
           <MapPin className="h-4 w-4 mr-2" />
           {space.location}
         </p>
-        
+
         {/* description*/}
         <div className="mb-4 flex-grow">
           <p className="text-gray-700 text-sm line-clamp-3">{space.description}</p>
         </div>
-        
+
         {/* amenities */}
         <div className="mb-4">
           <div className="flex flex-wrap gap-1">
@@ -180,12 +180,12 @@ function SpaceCard({ space }) {
             )}
           </div>
         </div>
-        
+
         {/* operating hours */}
         <p className="text-sm text-gray-600 mb-4">
           <span className="font-medium">Hours:</span> {space.hours}
         </p>
-        
+
         {/* view details button*/}
         <div className="mt-auto">
           <Link
