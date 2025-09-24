@@ -49,11 +49,19 @@ function BookingForm({ space, user }) {
   // generate available dates (next 30 days)
   const generateAvailableDates = () => {
     const dates = [];
-    //const today = new Date();
-    
-    for (let i = 0; i < 30; i++) {
-      const date = new Date();
-      date.setDate(i + 1);
+    // generate all days for the current month so we can gray out past days
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const lastDay = new Date(year, month + 1, 0).getDate();
+
+    for (let d = 1; d <= lastDay; d++) {
+      const date = new Date(year, month, d);
+      date.setHours(0, 0, 0, 0);
+      const isPast = date < today;
+      const isToday = date.getTime() === today.getTime();
+
       dates.push({
         value: date.toISOString().split('T')[0], // YYYY-MM-DD format
         date: date,
@@ -64,27 +72,28 @@ function BookingForm({ space, user }) {
           year: 'numeric'
         }),
         dayNumber: date.getDate(),
-        isToday: i === 0,
+        isToday,
+        isPast,
         isWeekend: date.getDay() === 0 || date.getDay() === 6
       });
     }
-    
+
     return dates;
   };
 
   const availableDates = generateAvailableDates();
 
   // get current month and year for calendar header
-  const currentMonth = new Date().toLocaleDateString('en-US', { 
-    month: 'long', 
-    year: 'numeric' 
+  const currentMonth = new Date().toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
   });
 
   // group dates by weeks for calendar layout
   const groupDatesByWeeks = () => {
     const weeks = [];
     let currentWeek = [];
-    
+
     availableDates.forEach((date, index) => {
       if (index === 0) {
         // fill empty cells for the first week
@@ -93,20 +102,20 @@ function BookingForm({ space, user }) {
           currentWeek.push(null);
         }
       }
-      
+
       currentWeek.push(date);
-      
+
       if (currentWeek.length === 7) {
         weeks.push(currentWeek);
         currentWeek = [];
       }
     });
-    
+
     // add the last incomplete week
     if (currentWeek.length > 0) {
       weeks.push(currentWeek);
     }
-    
+
     return weeks;
   };
 
