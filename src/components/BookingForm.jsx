@@ -123,7 +123,7 @@ function BookingForm({ space, user }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!selectedSlot || !selectedDate) {
       alert('Please select both a date and time slot');
       return;
@@ -140,7 +140,7 @@ function BookingForm({ space, user }) {
     // booking api call
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
+
       // create booking using context
       const bookingData = {
         spaceId: space.id,
@@ -151,16 +151,16 @@ function BookingForm({ space, user }) {
         price: space.price,
         userId: user?.id || 1
       };
-      
+
       createBooking(bookingData);
-      
+
       setShowSuccess(true);
-      
+
       // redirect to dashboard after successful booking
       setTimeout(() => {
         navigate('/dashboard/my-bookings');
       }, 2000);
-      
+
     } catch (error) {
       console.error('Booking error:', error);
       alert('Failed to create booking. Please try again.');
