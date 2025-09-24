@@ -152,51 +152,50 @@ function SpaceDetailPage() {
             )}
           </div>
 
+          {/* separation line */}
+          <hr className="my-6 border-t border-gray-200" />
           {/* space information */}
-          <div>
+          <div className="mb-6 bg-white rounded-xl shadow-sm p-6 border border-gray-100">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{space.name}</h1>
-            
             <div className="flex items-center text-gray-600 mb-4">
               <MapPin className="h-5 w-5 mr-2" />
               <span className="text-lg">{space.location}</span>
             </div>
-
             <div className="bg-green-50 text-green-700 text-2xl font-bold px-4 py-2 rounded-lg inline-block mb-6">
               ₱{space.price} / day
             </div>
-
             <p className="text-gray-700 text-lg mb-6">{space.description}</p>
+          </div>
 
-            {/* operating hours */}
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Operating Hours</h3>
-              <p className="text-gray-700">{space.hours}</p>
-            </div>
+          {/* operating hours */}
+          <div className="mb-6 bg-blue-50 rounded-xl shadow-sm p-6 border border-blue-100">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">Operating Hours</h3>
+            <p className="text-gray-700">{space.hours}</p>
+          </div>
 
-            {/* amenities */}
-            <div className="mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Amenities</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {space.amenities.map((amenity, index) => (
-                  <div key={index} className="flex items-center">
-                    <Check className="h-4 w-4 text-green-500 mr-2" />
-                    <span className="text-gray-700">{amenity}</span>
-                  </div>
-                ))}
-              </div>
+          {/* amenities */}
+          <div className="mb-8 bg-green-50 rounded-xl shadow-sm p-6 border border-green-100">
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Amenities</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {space.amenities.map((amenity, index) => (
+                <div key={index} className="flex items-center">
+                  <Check className="h-4 w-4 text-green-500 mr-2" />
+                  <span className="text-gray-700">{amenity}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-
+        </div>
         {/* right column (booking form) */}
         <div>
           <div className="sticky top-8">
             <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-md">
               <h2 className="text-xl font-semibold text-center text-gray-900 mb-6">Book This Space</h2>
-              
+
               {isAuthenticated() ? (
-                <BookingForm 
-                  space={space} 
+                <BookingForm
+                  space={space}
                   user={user}/>
               ) : (
                 <div className="text-center">
