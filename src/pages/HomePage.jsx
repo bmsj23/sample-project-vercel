@@ -86,13 +86,6 @@ function HomePage() {
                     onChange={handleSearchChange}
                     aria-label="Search by name or location"
                   />
-                  <button
-                    type="submit"
-                    onClick={() => { /* keep current behavior: filtering handled by input change */ }}
-                    className="bg-blue-600 text-white px-5 py-3 rounded-r-full text-sm font-medium hover:bg-blue-700 transition-colors"
-                  >
-                    Search
-                  </button>
                 </div>
               </form>
             </div>
