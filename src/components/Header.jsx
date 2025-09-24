@@ -26,8 +26,10 @@ function Header() {
           <nav className="hidden md:flex space-x-8">
             <Link
               to="/"
-              className={`text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium ${
-                location.pathname === "/" ? " text-blue-600 border-b-2 border-blue-600 " : ""
+              className={`px-3 py-2 text-sm font-medium ${
+                location.pathname === "/"
+                  ? "text-blue-600 border-b-2 border-blue-600"
+                  : "text-gray-900 hover:text-blue-600"
               }`}>
               Browse Spaces
             </Link>
@@ -35,10 +37,10 @@ function Header() {
             {isUserAuthenticated && (
               <Link
                 to="/dashboard/my-bookings"
-                className={`text-gray-900 hover:text-blue-600 px-3 py-2 text-sm font-medium ${
+                className={`px-3 py-2 text-sm font-medium ${
                   location.pathname === "/dashboard/my-bookings"
-                    ? "border-b-2 border-blue-600"
-                    : ""
+                    ? "text-blue-600 border-b-2 border-blue-600"
+                    : "text-gray-900 hover:text-blue-600"
                 }`}>
                 My Bookings
               </Link>
