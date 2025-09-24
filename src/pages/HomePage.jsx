@@ -24,7 +24,7 @@ function HomePage() {
     if (searchTerm.trim() === '') {
       setFilteredSpaces(spaces);
     } else {
-      const filtered = spaces.filter(space => 
+      const filtered = spaces.filter(space =>
         space.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         space.location.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -43,39 +43,65 @@ function HomePage() {
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       </div>
-    ); 
+    );
   }
 
   return (
     <div className="">
-      {/* hero section */}
-      <div className="bg-[url('/assets/images/herosection.jpg')] max-w-full py-50">
-        <div className="text-center mb-12 flex-col justify-between">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Find Your Perfect Study Space
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            Discover co-working spaces and study hubs across the Philippines
-          </p>
-          
-          {/* search bar */}
-          <div className="max-w-2xl mx-auto">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              </div>
-              <input
-                type="text"
-                placeholder="Search by name or location..."
-                className="block w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:border-blue-500 text-lg"
-                value={searchTerm}
-                onChange={handleSearchChange}
-              />
+      {/* improved hero section */}
+  <section className="relative mb-6">
+        {/* background image */}
+        <div className="absolute inset-0 overflow-hidden">
+          <img
+            src="/assets/images/herosection.jpg"
+            alt="Study spaces"
+            className="w-full h-96 md:h-[520px] object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30"></div>
+        </div>
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-30">
+          <div className="max-w-3xl mx-auto text-center text-white">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg">
+              Find Your Perfect Study Space
+            </h1>
+            <p className="mt-4 text-lg md:text-xl text-gray-200">
+              Discover co-working spaces and study hubs across the Philippines
+            </p>
+
+            {/* search bar */}
+            <div className="mt-8">
+              <form
+                onSubmit={(e) => { e.preventDefault(); }}
+                className="mx-auto max-w-2xl"
+                aria-label="Search spaces">
+                <div className="flex items-center bg-white rounded-full shadow-lg overflow-hidden">
+                  <div className="flex items-center px-3 text-gray-400">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search by name or location..."
+                    className="flex-1 px-4 py-3 text-gray-700 focus:outline-none"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    aria-label="Search by name or location"
+                  />
+                  <button
+                    type="submit"
+                    onClick={() => { /* keep current behavior: filtering handled by input change */ }}
+                    className="bg-blue-600 text-white px-5 py-3 rounded-r-full text-sm font-medium hover:bg-blue-700 transition-colors"
+                  >
+                    Search
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
 
         {/* results summary */}
         <div className="mb-8">
