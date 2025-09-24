@@ -48,7 +48,6 @@ function HomePage() {
 
   return (
     <div className="">
-      {/* improved hero section */}
   <section className="relative mb-6">
         {/* background image */}
         <div className="absolute inset-0 overflow-hidden">
