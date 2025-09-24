@@ -10,7 +10,7 @@ function BookingForm({ space, user }) {
   const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
   const { createBooking, getUserBookings } = useBooking();
-  
+
   // get user's existing bookings for this space
   const userBookings = getUserBookings().filter(booking => booking.userId === (user?.id || 1));
   const spaceBookings = userBookings.filter(booking => booking.spaceId === space.id);
@@ -27,7 +27,7 @@ function BookingForm({ space, user }) {
     });
   }, [getUserBookings, user?.id, space.id, userBookings, spaceBookings]);
   */
- 
+
   // check if a date and time slot combination is already booked
   const isSlotBooked = (date, timeSlot) => {
     const isBooked = spaceBookings.some(booking => {
