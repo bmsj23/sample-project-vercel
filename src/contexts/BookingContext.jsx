@@ -19,8 +19,9 @@ export default function BookingProvider({ children }) {
   };
 
   const cancelBooking = (bookingId) => {
-    setBookings(prevBookings => 
-      prevBookings.filter(booking => booking.id !== bookingId)
+    // Instead of deleting the booking, mark it as cancelled so it remains visible
+    setBookings(prevBookings =>
+      prevBookings.map(booking => booking.id === bookingId ? { ...booking, status: 'cancelled', cancelledAt: new Date().toISOString() } : booking)
     );
   };
 
