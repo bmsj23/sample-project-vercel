@@ -40,15 +40,38 @@ function BookingForm({ space, user }) {
 
   // check if a date and time slot combination is already booked
   const isSlotBooked = useCallback((date, timeSlot) => {
-    const isBooked = spaceBookings.some(booking => booking.bookingDate === date && booking.timeSlot === timeSlot);
+    // ignore cancelled bookings when checking if a slot is booked
+    const isBooked = spaceBookings.some(booking => booking.bookingDate === date && booking.timeSlot === timeSlot && booking.status !== 'cancelled');
     return isBooked;
   }, [spaceBookings]);
 
   // check if a date has any bookings
   const hasBookingOnDate = (date) => {
+    // Only count bookings that are not cancelled and whose end time is in the future
     const hasBooking = spaceBookings.some(booking => {
-      const match = booking.bookingDate === date;
-      return match;
+      if (booking.status === 'cancelled') return false;
+      if (booking.bookingDate !== date) return false;
+
+      // try to compute booking end using space.time_slots (if slot objects have end)
+      try {
+        const slotObj = (space.time_slots || []).find(s => (s.label || s) === booking.timeSlot) || null;
+        if (slotObj && slotObj.end) {
+          const [y, m, d] = date.split('-').map(Number);
+          const [eh, em] = slotObj.end.split(':').map(Number);
+          const [sh, sm] = (slotObj.start || '00:00').split(':').map(Number);
+          const startDate = new Date(y, m - 1, d, sh || 0, sm || 0, 0, 0);
+          let endDate = new Date(y, m - 1, d, eh, em, 0, 0);
+          if (endDate.getTime() <= startDate.getTime()) endDate.setDate(endDate.getDate() + 1);
+          return endDate.getTime() > Date.now();
+        }
+      } catch {
+        // fallback below
+      }
+
+      // fallback: consider booking date as whole-day — count it if end of day is in future
+      const [y, m, d] = date.split('-').map(Number);
+      const endOfDay = new Date(y, m - 1, d, 23, 59, 59, 999);
+      return endOfDay.getTime() > Date.now();
     });
     return hasBooking;
   };
