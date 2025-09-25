@@ -48,7 +48,7 @@ function HomePage() {
 
   return (
     <div className="">
-  <section className="relative mb-6">
+  <section className="relative mb-6 h-[calc(60vh-4rem)]">
         {/* background image */}
         <div className="absolute inset-0 overflow-hidden">
           <img
@@ -59,17 +59,19 @@ function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 to-black/30"></div>
         </div>
 
-  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-30">
-          <div className="max-w-3xl mx-auto text-center text-white">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg">
-              Find Your Perfect Study Space
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-30 ">
+          <div className="max-w-5xl mx-auto text-center text-white">
+            <h1 className="mt-12 text-4xl md:text-5xl lg:text-6xl font-extrabold drop-shadow-lg">
+              <span className="text-blue-500"> Find </span>
+              Your Perfect
+              <span className="text-blue-500"> Study Space.</span>
             </h1>
-            <p className="mt-4 text-lg md:text-xl text-gray-200">
+            <p className="text-lg md:text-xl text-gray-200 mt-20">
               Discover co-working spaces and study hubs across the Philippines
             </p>
 
             {/* search bar */}
-            <div className="mt-8">
+            <div className="mt-4">
               <form
                 onSubmit={(e) => { e.preventDefault(); }}
                 className="mx-auto max-w-2xl"
