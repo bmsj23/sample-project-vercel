@@ -11,19 +11,17 @@ function Header() {
   return (
     <header className="bg-white shadow-sm fixed w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="grid grid-cols-3 items-center h-16">
           {/* logo */}
-          <div className="flex flex-row items-center justify-center">
-            <img src="/assets/images/faviconheader.ico" className="w-10 h-10"></img>
-            <Link
-              to="/"
-               className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-1">
+          <div className="flex items-center space-x-2">
+            <img src="/assets/images/faviconheader.ico" className="w-10 h-10" alt="logo" />
+            <Link to="/" className="text-2xl font-bold text-blue-600 hover:text-blue-700 mb-1">
               StudySpot PH
             </Link>
           </div>
 
           {/* navigation */}
-          <nav className="hidden md:flex space-x-8">
+          <nav className="hidden md:flex justify-center space-x-8">
             <Link
               to="/"
               className={`px-3 py-2 text-sm font-medium ${
@@ -47,22 +45,22 @@ function Header() {
             )}
           </nav>
 
-          {/* auth section */}
-          <div className="flex items-center space-x-4">
+          {/* auth section (right) */}
+          <div className="flex items-center justify-end space-x-4">
             {isUserAuthenticated ? (
               <>
-                <span className="text-gray-700">
-                  Welcome, {user?.username}!
-                </span>
+                <span className="text-gray-700">Welcome, {user?.username}!</span>
                 <button
                   onClick={logout}
-                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200">
+                  className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition duration-200 hover:cursor-pointer">
                   Logout
                 </button>
               </>
             ) : (
               <Link
                 to="/login"
+                state={{ from: location }}
+                replace
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200">
                 Login
               </Link>
