@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, ChevronRight, MapPin, Check, User } from 'lucide-react';
 import spacesData from '../data/spaces.json';
 import BookingForm from '../components/BookingForm';
@@ -13,6 +13,7 @@ function SpaceDetailPage() {
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const { user, isAuthenticated } = useAuth();
   const { getUserBookings } = useBooking();
+  const location = useLocation();
 
   // get user's bookings for this space
   const userBookings = getUserBookings();
@@ -70,7 +71,7 @@ function SpaceDetailPage() {
         </div>
       </nav>
       {/* back button */}
-      <div className="mb-6">
+      <div className="mb-6 pt-3">
         <button
           onClick={() => navigate(-1)}
           className="flex items-center text-white hover:bg-blue-600 transition-colors duration-200 cursor-pointer bg-blue-500 px-3 py-2 rounded-lg">
@@ -135,7 +136,7 @@ function SpaceDetailPage() {
                   <button
                     key={index}
                     onClick={() => setActiveImageIndex(index)}
-                    className={`flex-shrink-0 w-20 h-16 rounded-md overflow-hidden border-2 ${
+                    className={`flex-shrink-0 w-20 h-16 rounded-md overflow-hidden border-2 cursor-pointer ${
                       activeImageIndex === index ? 'border-blue-500' : 'border-gray-200'
                     }`}>
                     <img
@@ -201,7 +202,7 @@ function SpaceDetailPage() {
                 <div className="text-center">
                   <div className="mb-6">
                     <User className="mx-auto h-12 w-12 text-gray-400 mb-2" />
-                    <h3 className="text-lg font-medium text-gray-900 mb-2">Sign in to Book</h3>
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">Login to Book</h3>
                     <p className="text-gray-600 mb-4">
                       You need to be logged in to make a booking.
                     </p>
@@ -209,8 +210,10 @@ function SpaceDetailPage() {
 
                   <Link
                     to="/login"
+                    state={{ from: location }}
+                    replace
                     className="block w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-200 font-medium text-center">
-                    Sign In to Book
+                    Login
                   </Link>
 
                   <p className="text-sm text-gray-500 mt-4">
