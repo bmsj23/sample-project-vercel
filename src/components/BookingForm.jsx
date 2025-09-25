@@ -6,6 +6,16 @@ import { useBooking } from '../hooks/useContexts';
 function BookingForm({ space, user }) {
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  // currentMonthDate represents the first day of the month currently shown in the calendar
+  const [currentMonthDate, setCurrentMonthDate] = useState(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1);
+  });
+  // minimum month allowed (can't go before current month)
+  const [minMonthDate] = useState(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1);
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
@@ -125,23 +135,23 @@ function BookingForm({ space, user }) {
     }
   }, [selectedDate, selectedSlot, isSlotBooked, isSlotTimePast, space.time_slots]);
 
-  // generate available dates (next 30 days)
-  const generateAvailableDates = () => {
+  // generate available dates for the currently displayed month
+  const generateAvailableDatesForMonth = useCallback((monthDate) => {
     const dates = [];
-    // generate all days for the current month so we can gray out past days
+    const year = monthDate.getFullYear();
+    const month = monthDate.getMonth();
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const year = today.getFullYear();
-    const month = today.getMonth();
+    const monthStart = new Date(year, month, 1);
+    monthStart.setHours(0, 0, 0, 0);
+
     const lastDay = new Date(year, month + 1, 0).getDate();
 
     for (let d = 1; d <= lastDay; d++) {
       const date = new Date(year, month, d);
       date.setHours(0, 0, 0, 0);
-      const isPast = date < today;
-      const isToday = date.getTime() === today.getTime();
+      const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const isToday = date.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
 
-      // build a local YYYY-MM-DD string
       const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
         date.getDate()
       ).padStart(2, '0')}`;
@@ -163,15 +173,23 @@ function BookingForm({ space, user }) {
     }
 
     return dates;
-  };
+  }, []);
 
-  const availableDates = generateAvailableDates();
+  const availableDates = generateAvailableDatesForMonth(currentMonthDate);
 
-  // get current month and year for calendar header
-  const currentMonth = new Date().toLocaleDateString('en-US', {
+  // current month and year for calendar header (derived from currentMonthDate)
+  const currentMonth = currentMonthDate.toLocaleDateString('en-US', {
     month: 'long',
     year: 'numeric'
   });
+
+  // month navigation helpers
+  const goToMonth = (offset) => {
+    setCurrentMonthDate(prev => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
+  };
+  const canPrevMonth = () => {
+    return currentMonthDate.getFullYear() > minMonthDate.getFullYear() || (currentMonthDate.getFullYear() === minMonthDate.getFullYear() && currentMonthDate.getMonth() > minMonthDate.getMonth());
+  };
 
   // group dates by weeks for calendar layout
   const groupDatesByWeeks = () => {
@@ -285,9 +303,24 @@ function BookingForm({ space, user }) {
           Select Date
         </label>
         <div className="bg-white border border-gray-300 rounded-lg p-4">
-          {/* calendar header */}
-          <div className="text-center mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">{currentMonth}</h3>
+          {/* calendar header with month navigation */}
+          <div className="flex items-center justify-between mb-4">
+            <button
+              type="button"
+              onClick={() => goToMonth(-1)}
+              disabled={!canPrevMonth()}
+              className={`px-2 py-1 rounded ${canPrevMonth() ? 'hover:bg-gray-100' : 'opacity-40 cursor-not-allowed'}`}>
+              ←
+            </button>
+            <div className="text-center">
+              <h3 className="text-lg font-semibold text-gray-900">{currentMonth}</h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => goToMonth(1)}
+              className="px-2 py-1 rounded hover:bg-gray-100">
+              →
+            </button>
           </div>
 
           {/* days of week header */}
