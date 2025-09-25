@@ -67,14 +67,14 @@ function HomePage() {
               <span className="text-blue-500"> Study Space.</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-200 mt-20">
-              Discover co-working spaces and study hubs across the Philippines
+              Discover co-working spaces and study hubs across the Philippines.
             </p>
 
             {/* search bar */}
             <div className="mt-4">
               <form
                 onSubmit={(e) => { e.preventDefault(); }}
-                className="mx-auto max-w-2xl"
+                className="mx-auto max-w-[590px]"
                 aria-label="Search spaces">
                 <div className="flex items-center bg-white rounded-full shadow-lg overflow-hidden">
                   <div className="flex items-center px-3 text-gray-400">
