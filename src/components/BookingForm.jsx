@@ -2,20 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, Loader } from 'lucide-react';
 import { useBooking } from '../hooks/useContexts';
+import BookingCalendar from './BookingCalendar';
+import TimeSlotList from './TimeSlotList';
 
 function BookingForm({ space, user }) {
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
-  // currentMonthDate represents the first day of the month currently shown in the calendar
-  const [currentMonthDate, setCurrentMonthDate] = useState(() => {
-    const d = new Date();
-    return new Date(d.getFullYear(), d.getMonth(), 1);
-  });
-  // minimum month allowed (can't go before current month)
-  const [minMonthDate] = useState(() => {
-    const d = new Date();
-    return new Date(d.getFullYear(), d.getMonth(), 1);
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const navigate = useNavigate();
@@ -147,6 +139,17 @@ function BookingForm({ space, user }) {
     }
   }, [parseSlotStartEnd]);
 
+  const formatDateFromValue = useCallback((value) => {
+    if (!value) return '';
+    try {
+      const [y, m, d] = value.split('-').map(Number);
+      const dt = new Date(y, m - 1, d);
+      return dt.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    } catch {
+      return value;
+    }
+  }, []);
+
   // clear selected slot if it becomes invalid (user switches date to today and the slot passed or another booking was created)
   useEffect(() => {
     if (!selectedSlot || !selectedDate) return;
@@ -158,93 +161,7 @@ function BookingForm({ space, user }) {
     }
   }, [selectedDate, selectedSlot, isSlotBooked, isSlotTimePast, space.time_slots]);
 
-  // generate available dates for the currently displayed month
-  const generateAvailableDatesForMonth = useCallback((monthDate) => {
-    const dates = [];
-    const year = monthDate.getFullYear();
-    const month = monthDate.getMonth();
-    const today = new Date();
-    const monthStart = new Date(year, month, 1);
-    monthStart.setHours(0, 0, 0, 0);
-
-    const lastDay = new Date(year, month + 1, 0).getDate();
-
-    for (let d = 1; d <= lastDay; d++) {
-      const date = new Date(year, month, d);
-      date.setHours(0, 0, 0, 0);
-      const isPast = date < new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      const isToday = date.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
-
-      const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-        date.getDate()
-      ).padStart(2, '0')}`;
-
-      dates.push({
-        value,
-        date: date,
-        display: date.toLocaleDateString('en-US', {
-          weekday: 'short',
-          month: 'short',
-          day: 'numeric',
-          year: 'numeric'
-        }),
-        dayNumber: date.getDate(),
-        isToday,
-        isPast,
-        isWeekend: date.getDay() === 0 || date.getDay() === 6
-      });
-    }
-
-    return dates;
-  }, []);
-
-  const availableDates = generateAvailableDatesForMonth(currentMonthDate);
-
-  // current month and year for calendar header (derived from currentMonthDate)
-  const currentMonth = currentMonthDate.toLocaleDateString('en-US', {
-    month: 'long',
-    year: 'numeric'
-  });
-
-  // month navigation helpers
-  const goToMonth = (offset) => {
-    setCurrentMonthDate(prev => new Date(prev.getFullYear(), prev.getMonth() + offset, 1));
-  };
-  const canPrevMonth = () => {
-    return currentMonthDate.getFullYear() > minMonthDate.getFullYear() || (currentMonthDate.getFullYear() === minMonthDate.getFullYear() && currentMonthDate.getMonth() > minMonthDate.getMonth());
-  };
-
-  // group dates by weeks for calendar layout
-  const groupDatesByWeeks = () => {
-    const weeks = [];
-    let currentWeek = [];
-
-    availableDates.forEach((date, index) => {
-      if (index === 0) {
-        // fill empty cells for the first week
-        const startDayOfWeek = date.date.getDay();
-        for (let i = 0; i < startDayOfWeek; i++) {
-          currentWeek.push(null);
-        }
-      }
-
-      currentWeek.push(date);
-
-      if (currentWeek.length === 7) {
-        weeks.push(currentWeek);
-        currentWeek = [];
-      }
-    });
-
-    // add the last incomplete week
-    if (currentWeek.length > 0) {
-      weeks.push(currentWeek);
-    }
-
-    return weeks;
-  };
-
-  const calendarWeeks = groupDatesByWeeks();
+  // generateAvailableDatesForMonth and calendar rendering moved to BookingCalendar component
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -320,158 +237,27 @@ function BookingForm({ space, user }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* date selection */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-3 text-center">
-          Select Date
-        </label>
-        <div className="bg-white border border-gray-300 rounded-lg p-4">
-          {/* calendar header with month navigation */}
-          <div className="flex items-center justify-between mb-4">
-            <button
-              type="button"
-              onClick={() => goToMonth(-1)}
-              disabled={!canPrevMonth()}
-              className={`px-2 py-1 rounded ${canPrevMonth() ? 'hover:bg-gray-100' : 'opacity-40 cursor-not-allowed'}`}>
-              ←
-            </button>
-            <div className="text-center">
-              <h3 className="text-lg font-semibold text-gray-900">{currentMonth}</h3>
-            </div>
-            <button
-              type="button"
-              onClick={() => goToMonth(1)}
-              className="px-2 py-1 rounded hover:bg-gray-100">
-              →
-            </button>
-          </div>
-
-          {/* days of week header */}
-          <div className="grid grid-cols-7 gap-1 mb-2">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
-              <div key={day} className="text-center text-xs font-medium text-gray-500 py-2">
-                {day}
-              </div>
-            ))}
-          </div>
-
-          {/* calendar grid */}
-          <div className="space-y-1">
-            {calendarWeeks.map((week, weekIndex) => (
-              <div key={weekIndex} className="grid grid-cols-7 gap-1">
-                {week.map((date, dayIndex) => {
-                  if (!date) {
-                    return <div key={dayIndex} className="h-10"></div>;
-                  }
-
-                  const isSelected = selectedDate === date.value;
-                  const isToday = date.isToday;
-                  const hasBooking = hasBookingOnDate(date.value);
-                  const isPast = date.isPast;
-
-                  return (
-                    <button
-                      key={date.value}
-                      type="button"
-                        onClick={() => { if (!isPast && !isSubmitting) setSelectedDate(date.value); }}
-                        disabled={isSubmitting || isPast}
-                      className={`
-                        h-10 text-sm font-medium rounded-md transition-colors duration-200 relative
-                        ${isSelected ? 'bg-blue-600 text-white hover:bg-blue-700'
-                          : isPast ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : hasBooking ? 'bg-green-100 text-green-800 hover:bg-green-200 ring-2 ring-green-400'
-                          : isToday ? 'bg-blue-100 text-blue-700 hover:bg-blue-200'
-                          : 'text-gray-900 hover:bg-gray-100'
-                        }
-                        ${isSubmitting ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}
-                      `}>
-                      {date.dayNumber}
-                      {hasBooking && (
-                        <div className="absolute bottom-1 right-1 w-2 h-2 bg-green-500 rounded-full"></div>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-
-          {/* selected date display */}
-          {selectedDate && (
-            <div className="mt-4 p-3 bg-blue-50 rounded-md text-center">
-              <p className="text-sm font-medium text-blue-900">
-                Selected: {availableDates.find(d => d.value === selectedDate)?.display}
-              </p>
-            </div>
-          )}
-
-          {/* calendar legend */}
-          <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-600 justify-center">
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-100 rounded mr-2"></div>
-              <span>Today</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-green-100 border border-green-400 rounded mr-2 relative">
-                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-              </div>
-              <span>You have bookings</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-blue-600 rounded mr-2"></div>
-              <span>Selected</span>
-            </div>
-          </div>
-        </div>
+        <label className="block text-sm font-medium text-gray-700 mb-3 text-center">Select Date</label>
+        <BookingCalendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          onSelectDate={() => { /* optional callback */ }}
+          isSubmitting={isSubmitting}
+          hasBookingOnDate={hasBookingOnDate}
+        />
       </div>
 
-      {/* time slot selection */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-3 text-center">
-          Select Time Slot
-        </label>
-        <div className="space-y-2">
-          {space.time_slots.map((slot, index) => {
-            // slot = { label, start, end }
-            const label = slot.label || slot;
-            const isSlotAlreadyBooked = selectedDate && isSlotBooked(selectedDate, label);
-            const isSlotPassed = selectedDate ? isSlotTimePast(slot, selectedDate) : false;
-
-            // if the currently selected slot becomes invalid, clear it
-
-            return (
-              <label
-                key={index}
-                className={`flex items-center p-3 border rounded-lg transition-colors ${
-                  isSlotAlreadyBooked
-                    ? 'border-red-200 bg-red-50 cursor-not-allowed opacity-75'
-                    : isSlotPassed
-                    ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-75'
-                    : selectedSlot === slot
-                    ? 'border-blue-500 bg-blue-50 text-blue-700 cursor-pointer'
-                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer'
-                }`}>
-                <input
-                  type="radio"
-                  name="timeSlot"
-                  value={label}
-                  checked={selectedSlot === label}
-                  onChange={(e) => setSelectedSlot(e.target.value)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
-                  disabled={isSubmitting || isSlotAlreadyBooked || isSlotPassed} />
-                <span className={`ml-3 font-medium ${isSlotAlreadyBooked ? 'text-red-600' : isSlotPassed ? 'text-gray-400' : ''}`}>
-                  {label}
-                  {isSlotAlreadyBooked && (
-                    <span className="ml-2 text-sm text-red-500">(Already booked)</span>
-                  )}
-                  {isSlotPassed && (
-                    <span className="ml-2 text-sm text-gray-500">(Time passed)</span>
-                  )}
-                </span>
-              </label>
-            );
-          })}
-        </div>
+        <TimeSlotList
+          space={space}
+          selectedDate={selectedDate}
+          selectedSlot={selectedSlot}
+          setSelectedSlot={setSelectedSlot}
+          isSubmitting={isSubmitting}
+          isSlotBooked={isSlotBooked}
+          isSlotTimePast={isSlotTimePast}
+        />
       </div>
 
       {/* booking summary */}
@@ -489,9 +275,9 @@ function BookingForm({ space, user }) {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Date:</span>
-              <span className="font-medium">
-                {availableDates.find(d => d.value === selectedDate)?.display}
-              </span>
+                <span className="font-medium">
+                  {formatDateFromValue(selectedDate)}
+                </span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Time Slot:</span>
