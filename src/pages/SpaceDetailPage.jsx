@@ -18,7 +18,44 @@ function SpaceDetailPage() {
   // get user's bookings for this space
   const userBookings = getUserBookings();
   const spaceBookings = userBookings.filter(booking => booking.spaceId === parseInt(spaceId));
-  const hasBookings = spaceBookings.length > 0;
+
+  // helper: determine booking end Date using slot end if available, else end of day
+  const getBookingEndDate = (booking) => {
+    if (!booking || !booking.bookingDate) return null;
+    try {
+      const [y, m, d] = booking.bookingDate.split('-').map(Number);
+      // try to resolve slot end time from space.time_slots if available
+      const slotObj = (space?.time_slots || []).find(s => (s.label || s) === booking.timeSlot) || null;
+      if (slotObj && slotObj.end) {
+        const [eh, em] = slotObj.end.split(':').map(Number);
+        const [sh, sm] = (slotObj.start || '00:00').split(':').map(Number);
+        const startDate = new Date(y, m - 1, d, sh || 0, sm || 0, 0, 0);
+        let endDate = new Date(y, m - 1, d, eh, em, 0, 0);
+        // overnight slot handling
+        if (endDate.getTime() <= startDate.getTime()) {
+          endDate.setDate(endDate.getDate() + 1);
+        }
+        return endDate;
+      }
+
+      // fallback: end of booking day
+      return new Date(y, m - 1, d, 23, 59, 59, 999);
+    } catch {
+      return null;
+    }
+  };
+
+  const isBookingPast = (booking) => {
+    if (!booking) return false;
+    if (booking.status === 'cancelled') return true; // treat cancelled as not upcoming for this view
+    const end = getBookingEndDate(booking);
+    if (!end) return false;
+    return end.getTime() < Date.now();
+  };
+
+  // only show upcoming (non-cancelled, not past) bookings in the space detail quick notice
+  const upcomingSpaceBookings = spaceBookings.filter(b => !isBookingPast(b));
+  const hasBookings = upcomingSpaceBookings.length > 0;
 
   useEffect(() => {
     // find the space by ID
@@ -88,10 +125,10 @@ function SpaceDetailPage() {
             <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
             <div>
               <h3 className="text-sm font-medium text-green-800 mb-1">
-                You have {spaceBookings.length} booking{spaceBookings.length > 1 ? 's' : ''} for this space
+                You have {upcomingSpaceBookings.length} booking{upcomingSpaceBookings.length !== 1 ? 's' : ''} for this space
               </h3>
               <div className="text-sm text-green-700">
-                {spaceBookings.map((booking, index) => (
+                {upcomingSpaceBookings.map((booking, index) => (
                   <div key={booking.id || index} className="mb-1">
                     {new Date(booking.bookingDate).toLocaleDateString('en-US', {
                       weekday: 'long',
