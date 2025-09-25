@@ -39,12 +39,12 @@ function ConfirmationModal({
             <div className="flex space-x-3">
               <button
                 onClick={onConfirm}
-                className="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex-1 transition duration-200">
+                className="px-4 py-2 bg-red-600 text-white text-base font-medium rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 flex-1 transition duration-200 hover:cursor-pointer">
                 {confirmText}
               </button>
               <button
                 onClick={onClose}
-                className="px-4 py-2 bg-gray-300 text-gray-700 text-base font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 flex-1 transition duration-200">
+                className="px-4 py-2 bg-gray-300 text-gray-700 text-base font-medium rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 flex-1 transition duration-200 hover:cursor-pointer">
                 {cancelText}
               </button>
             </div>
