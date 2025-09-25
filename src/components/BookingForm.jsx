@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle, Loader } from 'lucide-react';
 import { useBooking } from '../hooks/useContexts';
@@ -29,13 +29,10 @@ function BookingForm({ space, user }) {
   */
 
   // check if a date and time slot combination is already booked
-  const isSlotBooked = (date, timeSlot) => {
-    const isBooked = spaceBookings.some(booking => {
-      const match = booking.bookingDate === date && booking.timeSlot === timeSlot;
-      return match;
-    });
+  const isSlotBooked = useCallback((date, timeSlot) => {
+    const isBooked = spaceBookings.some(booking => booking.bookingDate === date && booking.timeSlot === timeSlot);
     return isBooked;
-  };
+  }, [spaceBookings]);
 
   // check if a date has any bookings
   const hasBookingOnDate = (date) => {
@@ -45,6 +42,88 @@ function BookingForm({ space, user }) {
     });
     return hasBooking;
   };
+
+  // parse time components and return start and end Date objects for a slot
+  const parseSlotStartEnd = useCallback((dateString, timeString) => {
+    // returns { start: Date|null, end: Date|null }
+    const toDate = (y, m, d, hrs, mins) => new Date(y, m - 1, d, hrs, mins, 0, 0);
+
+    const parseComponent = (comp) => {
+      if (!comp) return null;
+      const s = comp.trim().toLowerCase();
+      // match hh:mm or hh formats, with optional am/pm
+      const m = s.match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?$/i);
+      if (!m) return null;
+      let hours = parseInt(m[1], 10);
+      const minutes = m[2] ? parseInt(m[2], 10) : 0;
+      const meridiem = m[3];
+      if (meridiem) {
+        if (meridiem.toLowerCase() === 'pm' && hours !== 12) hours += 12;
+        if (meridiem.toLowerCase() === 'am' && hours === 12) hours = 0;
+      }
+      return { hours, minutes };
+    };
+
+    try {
+      const [y, m, d] = dateString.split('-').map(Number);
+      const parts = timeString.split('-');
+      const startComp = parseComponent(parts[0]);
+      const endComp = parts[1] ? parseComponent(parts[1]) : null;
+      const start = startComp ? toDate(y, m, d, startComp.hours, startComp.minutes) : null;
+      const end = endComp ? toDate(y, m, d, endComp.hours, endComp.minutes) : null;
+      return { start, end };
+    } catch {
+      return { start: null, end: null };
+    }
+  }, []);
+
+  // returns true if the slot's start time is already in the past (relative to now), for the given date
+  const isSlotTimePast = useCallback((slotOrString, dateValue) => {
+    if (!dateValue) return false;
+    try {
+      const today = new Date();
+      const [y, m, d] = dateValue.split('-').map(Number);
+      const slotDate = new Date(y, m - 1, d);
+      // only consider past times for today's date
+      if (slotDate.toDateString() !== today.toDateString()) return false;
+
+      // slotOrString may be an object {label,start,end} or a plain string like "9am - 1pm"
+      let start = null;
+      let end = null;
+      if (typeof slotOrString === 'object' && slotOrString !== null) {
+        // times are in HH:MM (24-hour) format in the data
+        const [sh, sm] = (slotOrString.start || '00:00').split(':').map(Number);
+        const [eh, em] = (slotOrString.end || '00:00').split(':').map(Number);
+        start = new Date(y, m - 1, d, sh, sm, 0, 0);
+        end = new Date(y, m - 1, d, eh, em, 0, 0);
+        // handle overnight slots where end is earlier or equal to start (end on next day)
+        if (end.getTime() <= start.getTime()) {
+          end.setDate(end.getDate() + 1);
+        }
+      } else {
+        const parsed = parseSlotStartEnd(dateValue, String(slotOrString || ''));
+        start = parsed.start;
+        end = parsed.end;
+      }
+
+      const compareDate = end || start;
+      if (!compareDate) return false;
+      return compareDate.getTime() <= Date.now();
+    } catch {
+      return false;
+    }
+  }, [parseSlotStartEnd]);
+
+  // clear selected slot if it becomes invalid (user switches date to today and the slot passed or another booking was created)
+  useEffect(() => {
+    if (!selectedSlot || !selectedDate) return;
+    const isBooked = isSlotBooked(selectedDate, selectedSlot);
+    const slotObj = space.time_slots.find(s => (s.label || s) === selectedSlot) || null;
+    const isPassed = isSlotTimePast(slotObj || selectedSlot, selectedDate);
+    if (isBooked || isPassed) {
+      setSelectedSlot('');
+    }
+  }, [selectedDate, selectedSlot, isSlotBooked, isSlotTimePast, space.time_slots]);
 
   // generate available dates (next 30 days)
   const generateAvailableDates = () => {
@@ -62,8 +141,13 @@ function BookingForm({ space, user }) {
       const isPast = date < today;
       const isToday = date.getTime() === today.getTime();
 
+      // build a local YYYY-MM-DD string
+      const value = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+        date.getDate()
+      ).padStart(2, '0')}`;
+
       dates.push({
-        value: date.toISOString().split('T')[0], // YYYY-MM-DD format
+        value,
         date: date,
         display: date.toLocaleDateString('en-US', {
           weekday: 'short',
@@ -132,6 +216,13 @@ function BookingForm({ space, user }) {
     // check for existing booking
     if (isSlotBooked(selectedDate, selectedSlot)) {
       alert('You already have a booking for this date and time slot. Please select a different time.');
+      return;
+    }
+
+    // prevent booking past time slots for today
+    const selectedSlotObj = space.time_slots.find(s => (s.label || s) === selectedSlot) || null;
+    if (isSlotTimePast(selectedSlotObj || selectedSlot, selectedDate)) {
+      alert('The selected time slot has already passed. Please choose a future time.');
       return;
     }
 
@@ -285,8 +376,12 @@ function BookingForm({ space, user }) {
         </label>
         <div className="space-y-2">
           {space.time_slots.map((slot, index) => {
-            const isSlotAlreadyBooked = selectedDate && isSlotBooked(selectedDate, slot);
+            // slot = { label, start, end }
+            const label = slot.label || slot;
+            const isSlotAlreadyBooked = selectedDate && isSlotBooked(selectedDate, label);
+            const isSlotPassed = selectedDate ? isSlotTimePast(slot, selectedDate) : false;
 
+            // if the currently selected slot becomes invalid, clear it
 
             return (
               <label
@@ -294,6 +389,8 @@ function BookingForm({ space, user }) {
                 className={`flex items-center p-3 border rounded-lg transition-colors ${
                   isSlotAlreadyBooked
                     ? 'border-red-200 bg-red-50 cursor-not-allowed opacity-75'
+                    : isSlotPassed
+                    ? 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-75'
                     : selectedSlot === slot
                     ? 'border-blue-500 bg-blue-50 text-blue-700 cursor-pointer'
                     : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer'
@@ -301,15 +398,18 @@ function BookingForm({ space, user }) {
                 <input
                   type="radio"
                   name="timeSlot"
-                  value={slot}
-                  checked={selectedSlot === slot}
+                  value={label}
+                  checked={selectedSlot === label}
                   onChange={(e) => setSelectedSlot(e.target.value)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 cursor-pointer"
-                  disabled={isSubmitting || isSlotAlreadyBooked} />
-                <span className={`ml-3 font-medium ${isSlotAlreadyBooked ? 'text-red-600' : ''}`}>
-                  {slot}
+                  disabled={isSubmitting || isSlotAlreadyBooked || isSlotPassed} />
+                <span className={`ml-3 font-medium ${isSlotAlreadyBooked ? 'text-red-600' : isSlotPassed ? 'text-gray-400' : ''}`}>
+                  {label}
                   {isSlotAlreadyBooked && (
                     <span className="ml-2 text-sm text-red-500">(Already booked)</span>
+                  )}
+                  {isSlotPassed && (
+                    <span className="ml-2 text-sm text-gray-500">(Time passed)</span>
                   )}
                 </span>
               </label>
