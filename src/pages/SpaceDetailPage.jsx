@@ -125,7 +125,7 @@ function SpaceDetailPage() {
             <CheckCircle className="h-5 w-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
             <div>
               <h3 className="text-sm font-medium text-green-800 mb-1">
-                You have {upcomingSpaceBookings.length} upcoming booking{upcomingSpaceBookings.length !== 1 ? 's' : ''} for this space
+                You have {upcomingSpaceBookings.length} booking{upcomingSpaceBookings.length !== 1 ? 's' : ''} for this space
               </h3>
               <div className="text-sm text-green-700">
                 {upcomingSpaceBookings.map((booking, index) => (
