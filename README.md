@@ -15,7 +15,6 @@ A comprehensive React single-page application (SPA) for booking co-working space
 - **Booking Management**: Complete CRUD operations for bookings
 - **Confirmation Modals**: Modal confirmations before booking cancellations
 - **Data Persistence**: localStorage integration for user sessions and bookings
-- **Responsive Design**: Mobile-friendly interface with Tailwind CSS
 
 ### 🔧 Additional Features
 
@@ -110,7 +109,7 @@ Any other credentials will result in authentication failure.
 
 - **Component-Based Architecture**: Modular, reusable components
 - **State Management**: useState, useContext, custom hooks
-- **Effects**: useEffect for data fetching and side effects  
+- **Effects**: useEffect for data fetching and side effects
 - **Routing**: react-router-dom with dynamic and protected routes
 - **Form Handling**: Controlled components with validation
 - **Context API**: Global state management without external libraries
