@@ -14,7 +14,11 @@
       "Air-conditioned"
     ],
     "hours": "9:00 AM - 9:00 PM",
-    "time_slots": ["9am - 1pm", "1pm - 5pm", "5pm - 9pm"]
+    "time_slots": [
+      { "label": "9:00 AM - 1:00 PM", "start": "09:00", "end": "13:00" },
+      { "label": "1:00 PM - 5:00 PM", "start": "13:00", "end": "17:00" },
+      { "label": "5:00 PM - 9:00 PM", "start": "17:00", "end": "21:00" }
+    ]
   },
   {
     "id": 2,
@@ -32,7 +36,10 @@
       "Ergonomic Chairs"
     ],
     "hours": "Open 24/7",
-    "time_slots": ["Full Day Pass", "Night Owl Pass (9pm-6am)"]
+    "time_slots": [
+      { "label": "Full Day Pass", "start": "00:00", "end": "23:59" },
+      { "label": "Night Owl Pass (9:00 PM - 6:00 AM)", "start": "21:00", "end": "06:00" }
+    ]
   },
   {
     "id": 3,
@@ -50,7 +57,10 @@
       "Outdoor Garden"
     ],
     "hours": "10:00 AM - 7:00 PM",
-    "time_slots": ["Morning Session (10am-2pm)", "Afternoon Session (2pm-6pm)"]
+    "time_slots": [
+      { "label": "Morning Session (10:00 AM - 2:00 PM)", "start": "10:00", "end": "14:00" },
+      { "label": "Afternoon Session (2:00 PM - 6:00 PM)", "start": "14:00", "end": "18:00" }
+    ]
   },
   {
     "id": 4,
@@ -68,7 +78,12 @@
       "Fast Charging Stations"
     ],
     "hours": "8:00 AM - 10:00 PM",
-    "time_slots": ["8am - 12pm", "12pm - 4pm", "4pm - 8pm", "8pm - 10pm"]
+    "time_slots": [
+      { "label": "8:00 AM - 12:00 PM", "start": "08:00", "end": "12:00" },
+      { "label": "12:00 PM - 4:00 PM", "start": "12:00", "end": "16:00" },
+      { "label": "4:00 PM - 8:00 PM", "start": "16:00", "end": "20:00" },
+      { "label": "8:00 PM - 10:00 PM", "start": "20:00", "end": "22:00" }
+    ]
   },
   {
     "id": 5,
@@ -86,13 +101,17 @@
       "Bike Parking"
     ],
     "hours": "7:00 AM - 11:00 PM",
-    "time_slots": ["Early Bird (7am-11am)", "Day Pass (11am-7pm)", "Night Shift (7pm-11pm)"]
+    "time_slots": [
+      { "label": "Early Bird (7:00 AM - 11:00 AM)", "start": "07:00", "end": "11:00" },
+      { "label": "Day Pass (11:00 AM - 7:00 PM)", "start": "11:00", "end": "19:00" },
+      { "label": "Night Shift (7:00 PM - 11:00 PM)", "start": "19:00", "end": "23:00" }
+    ]
   },
   {
     "id": 6,
     "name": "EPro Coworking Space and Study Hub",
     "location": "Baguio City",
-    "price": 180, 
+    "price": 180,
     "main_image": "/assets/images/space-6.png",
     "images": ["/assets/images/space6_a.png", "/assets/images/space6_b.png"],
     "description": "Cozy mountain retreat perfect for focused study sessions. Enjoy the cool weather and peaceful environment.",
@@ -104,7 +123,11 @@
       "Blanket Service"
     ],
     "hours": "6:00 AM - 8:00 PM",
-    "time_slots": ["Dawn Session (6am-10am)", "Morning Focus (10am-2pm)", "Afternoon Study (2pm-6pm)"]
+    "time_slots": [
+      { "label": "Dawn Session (6:00 AM - 10:00 AM)", "start": "06:00", "end": "10:00" },
+      { "label": "Morning Focus (10:00 AM - 2:00 PM)", "start": "10:00", "end": "14:00" },
+      { "label": "Afternoon Study (2:00 PM - 6:00 PM)", "start": "14:00", "end": "18:00" }
+    ]
   },
   {
     "id": 7,
@@ -122,7 +145,12 @@
       "Tech Workshops"
     ],
     "hours": "24 Hours",
-    "time_slots": ["Morning Coding (10am-2pm)", "Afternoon Dev (2pm-6pm)", "Evening Hack (6pm-10pm)", "All-nighter (10pm-6am)"]
+    "time_slots": [
+      { "label": "Morning Coding (10:00 AM - 2:00 PM)", "start": "10:00", "end": "14:00" },
+      { "label": "Afternoon Dev (2:00 PM - 6:00 PM)", "start": "14:00", "end": "18:00" },
+      { "label": "Evening Hack (6:00 PM - 10:00 PM)", "start": "18:00", "end": "22:00" },
+      { "label": "All-nighter (10:00 PM - 6:00 AM)", "start": "22:00", "end": "06:00" }
+    ]
   },
   {
     "id": 8,
@@ -140,7 +168,12 @@
       "Instagram-worthy Spots"
     ],
     "hours": "10:00 AM - 12:00 AM",
-    "time_slots": ["Brunch Study (10am-2pm)", "Afternoon Grind (2pm-6pm)", "Sunset Session (6pm-10pm)", "Night Owl (10pm-12am)"]
+    "time_slots": [
+      { "label": "Brunch Study (10:00 AM - 2:00 PM)", "start": "10:00", "end": "14:00" },
+      { "label": "Afternoon Grind (2:00 PM - 6:00 PM)", "start": "14:00", "end": "18:00" },
+      { "label": "Sunset Session (6:00 PM - 10:00 PM)", "start": "18:00", "end": "22:00" },
+      { "label": "Night Owl (10:00 PM - 12:00 AM)", "start": "22:00", "end": "00:00" }
+    ]
   },
   {
     "id": 9,
@@ -158,7 +191,12 @@
       "Yoga Corner"
     ],
     "hours": "6:00 AM - 10:00 PM",
-    "time_slots": ["Sunrise Session (6am-10am)", "Mid-day Focus (10am-3pm)", "Golden Hour (3pm-7pm)", "Evening Wind Down (7pm-10pm)"]
+    "time_slots": [
+      { "label": "Sunrise Session (6:00 AM - 10:00 AM)", "start": "06:00", "end": "10:00" },
+      { "label": "Mid-day Focus (10:00 AM - 3:00 PM)", "start": "10:00", "end": "15:00" },
+      { "label": "Golden Hour (3:00 PM - 7:00 PM)", "start": "15:00", "end": "19:00" },
+      { "label": "Evening Wind Down (7:00 PM - 10:00 PM)", "start": "19:00", "end": "22:00" }
+    ]
   },
   {
     "id": 10,
@@ -176,7 +214,11 @@
       "Valet Parking"
     ],
     "hours": "9:00 AM - 9:00 PM",
-    "time_slots": ["Early Executive (9am-12pm)", "Business Hours (12pm-4pm)", "After Hours (4pm-9pm)"]
+    "time_slots": [
+      { "label": "Early Executive (9:00 AM - 12:00 PM)", "start": "09:00", "end": "12:00" },
+      { "label": "Business Hours (12:00 PM - 4:00 PM)", "start": "12:00", "end": "16:00" },
+      { "label": "After Hours (4:00 PM - 9:00 PM)", "start": "16:00", "end": "21:00" }
+    ]
   },
   {
     "id": 11,
@@ -194,7 +236,12 @@
       "Island Hopping Breaks"
     ],
     "hours": "7:00 AM - 9:00 PM",
-    "time_slots": ["Sunrise Beach (7am-11am)", "Midday Shade (11am-3pm)", "Sunset Productivity (3pm-7pm)", "Moonlight Session (7pm-9pm)"]
+    "time_slots": [
+      { "label": "Sunrise Beach (7:00 AM - 11:00 AM)", "start": "07:00", "end": "11:00" },
+      { "label": "Midday Shade (11:00 AM - 3:00 PM)", "start": "11:00", "end": "15:00" },
+      { "label": "Sunset Productivity (3:00 PM - 7:00 PM)", "start": "15:00", "end": "19:00" },
+      { "label": "Moonlight Session (7:00 PM - 9:00 PM)", "start": "19:00", "end": "21:00" }
+    ]
   },
   {
     "id": 12,
@@ -212,6 +259,10 @@
       "Cultural Library"
     ],
     "hours": "8:00 AM - 8:00 PM",
-    "time_slots": ["Heritage Morning (8am-12pm)", "Siesta Study (12pm-4pm)", "Colonial Evening (4pm-8pm)"]
+    "time_slots": [
+      { "label": "Heritage Morning (8:00 AM - 12:00 PM)", "start": "08:00", "end": "12:00" },
+      { "label": "Siesta Study (12:00 PM - 4:00 PM)", "start": "12:00", "end": "16:00" },
+      { "label": "Colonial Evening (4:00 PM - 8:00 PM)", "start": "16:00", "end": "20:00" }
+    ]
   }
 ]
