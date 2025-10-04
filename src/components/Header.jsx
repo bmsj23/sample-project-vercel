@@ -21,7 +21,8 @@ function Header() {
           </div>
 
           {/* navigation */}
-          <nav className="hidden md:flex justify-center space-x-8">
+          <nav className="
+          md:flex justify-center space-x-8">
             <Link
               to="/"
               className={`px-3 py-2 text-sm font-medium ${
